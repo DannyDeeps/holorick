@@ -1,0 +1,25 @@
+{
+    "name": "dannydeeps/holorick",
+    "description": "Discord bot for Glip Glops server.",
+    "type": "discord-bot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Huggins",
+            "email": "contactdanielhuggins@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "team-reflex/discord-php": "^5.1",
+        "curl/curl": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Holorick\\": "src/"
+        }
+    },
+    "require-dev": {
+        "kint-php/kint": "^3.3"
+    }
+}
