@@ -37,7 +37,7 @@ $discord->run();
 
 function validateScreenshotMessage(Message $message)
 {
-    if (empty($message->attachments)) {
+    if (empty($message->attachments[0])) {
         $message->delete();
         $message->reply('Hey.. th.. _blugggh_.. that doesn\'t go there!');
     }
