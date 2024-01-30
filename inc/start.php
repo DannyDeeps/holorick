@@ -1,15 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 error_reporting(E_ALL & ~E_DEPRECATED);
 
-// ActiveRecord\Config::initialize(function($cfg)
-// {
-//     $cfg->set_model_directory('models');
-//     $cfg->set_connections([
-//         'development' => 'mysql://holorick:@localhost/holorick',
-//         'production' => 'mysql://holorick:@holorick/holorick'
-//     ]);
-//     // $cfg->set_default_connection('production');
-// });
+require_once __DIR__ . '/../vendor/autoload.php';
+
+const ROOT = __DIR__ . '/../';
+const D_TOKEN = 'ODI4MzUzNjkyMTIxMzAxMDM0.GQUMCq.dF2kMZCFIF9cNEwjHJqGKeZCEpcVGoNPk-_1Ko';
