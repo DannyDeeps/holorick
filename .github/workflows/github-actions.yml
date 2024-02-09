@@ -1,10 +1,28 @@
-name: Push to Main
-run-name: ${{ github.actor }} pushing to main
-on: [push]
+name: PHP CI
+
+on:
+  push:
+    branches:
+      main
+  
 jobs:
-  Debug-Test:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: composer install
-      - run: composer debug
-      - run: composer test
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2.9
+      
+      - name: Install Composer Deps
+        run: composer install
+
+      - name: Run debug
+        run: composer debug
+
+      - name: Run PHPUnit test
+        run: composer test
