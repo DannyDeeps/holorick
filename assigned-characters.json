@@ -415,27 +415,27 @@
         "role_id": "1203095816017805393"
     },
     {
-        "id": 40,
-        "name": "Beth's Mytholog",
+        "id": 204,
+        "name": "Lisa",
         "status": "Dead",
-        "species": "Mythological Creature",
-        "type": "Mytholog",
+        "species": "Alien",
+        "type": "",
         "gender": "Female",
         "origin": {
-            "name": "Nuptia 4",
-            "url": "https:\/\/rickandmortyapi.com\/api\/location\/13"
+            "name": "unknown",
+            "url": ""
         },
         "location": {
-            "name": "Nuptia 4",
-            "url": "https:\/\/rickandmortyapi.com\/api\/location\/13"
+            "name": "Immortality Field Resort",
+            "url": "https:\/\/rickandmortyapi.com\/api\/location\/7"
         },
-        "image": "https:\/\/rickandmortyapi.com\/api\/character\/avatar\/40.jpeg",
+        "image": "https:\/\/rickandmortyapi.com\/api\/character\/avatar\/204.jpeg",
         "episode": [
-            "https:\/\/rickandmortyapi.com\/api\/episode\/18"
+            "https:\/\/rickandmortyapi.com\/api\/episode\/26"
         ],
-        "url": "https:\/\/rickandmortyapi.com\/api\/character\/40",
-        "created": "2017-11-05T10:02:26.701Z",
+        "url": "https:\/\/rickandmortyapi.com\/api\/character\/204",
+        "created": "2017-12-30T12:59:58.460Z",
         "user_id": "254357887445499908",
-        "role_id": "1203102540271718400"
+        "role_id": "1203727144317100042"
     }
 ]

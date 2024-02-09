@@ -5,25 +5,15 @@ namespace HoloRick\Message;
 use \Discord\Discord;
 use \Discord\Parts\Channel\Message;
 
-use HoloRick\Commands;
+use HoloRick\Command\Handler as CommandHandler;
+use HoloRick\Logger;
 
-final class Handler {
-  public static function route(Message $message, Discord $discord) : void {
-    switch ($message->channel_id) {
-      default:
-        self::process($message, $discord);
-      break;
-    }
-  }
-
+class Handler {
   public static function incomingMessage(Message $message, Discord $discord) : void {
-    self::route($message, $discord);
-  }
-
-  public static function process(Message $message, Discord $discord) : void {
-    if (Commands::detected($message)) {
-      echo "Command Detected\n";
-      Commands::execute($message, $discord);
+    if (in_array($message->channel_id, COMMAND_CHANNELS)) {
+      if (CommandHandler::detectCommand($message)) {
+        CommandHandler::executeCommand($message, $discord);
+      }
     }
   }
 }

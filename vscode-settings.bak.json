@@ -1,0 +1,140 @@
+{
+	// System
+	"update.mode": "none",
+	"html.format.wrapAttributes": "force-aligned",
+	"files.eol": "\n",
+
+	// Security
+	"security.workspace.trust.untrustedFiles": "open",
+
+	// Editor
+	"editor.fontSize": 16,
+	"editor.fontWeight": 600,
+	"editor.fontFamily": "Hack",
+	"editor.snippetSuggestions": "top",
+	"editor.tabSize": 2,
+	"editor.detectIndentation": false,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.accessibilitySupport": "off",
+	"editor.maxTokenizationLineLength": 40000,
+
+	"diffEditor.ignoreTrimWhitespace": false,
+
+	// Workbench
+	"workbench.colorTheme": "One Dark Pro",
+	"workbench.iconTheme": "material-icon-theme",
+	"workbench.startupEditor": "none",
+
+	// Explorer
+	"explorer.confirmDelete": false,
+	"explorer.confirmDragAndDrop": false,
+	"explorer.autoReveal": false,
+
+	// GIT
+	"git.autofetch": "all",
+	"git.autofetchPeriod": 180,
+	"git.confirmSync": false,
+	"git.enableSmartCommit": true,
+
+	// SVN
+	"svn.commit.changes.selectedAll": false,
+	"svn.delete.actionForDeletedFiles": "remove",
+	"svn.refresh.remoteChanges": true,
+
+	// Terminal
+	"terminal.integrated.defaultProfile.windows": "Git Bash",
+	"terminal.integrated.enableMultiLinePasteWarning": true,
+	"trailing-spaces.syntaxIgnore": ["markdown"],
+
+	// Emmet
+	"emmet.showExpandedAbbreviation": "always",
+	"emmet.includeLanguages": {
+		"smarty": "html"
+	},
+
+	// Intelephense
+	"intelephense.environment.phpVersion": "8.2.9",
+	"[php]": {
+		"editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+	},
+
+	// Prettier
+	"prettier.useTabs": true,
+	"prettier.tabWidth": 2,
+
+	// Todo Tree
+	"todo-tree.general.tags": [
+		"BUG:",
+		"HACK:",
+		"FIXME:",
+		"TODO:",
+		"WARN:",
+		"SUGG:",
+		"INFO:"
+	],
+	"todo-tree.highlights.defaultHighlight": {
+		"foreground": "#000000",
+		"background": "#ffffff",
+		"type": "text-and-comment",
+		"fontWeight": "600"
+	},
+	"todo-tree.highlights.customHighlight": {
+		"INFO:": {
+			"foreground": "#000000",
+			"background": "#55a8d8",
+			"type": "text-and-comment",
+			"fontWeight": "600",
+			"hideFromTree": true
+		},
+		"WARN:": {
+			"foreground": "#ffffff",
+			"background": "#d85555",
+			"type": "text-and-comment",
+			"fontWeight": "400"
+		},
+		"SUGG:": {
+			"foreground": "#ffffff",
+			"background": "#bb48bb",
+			"type": "text-and-comment",
+			"fontWeight": "500"
+		},
+		"BUG:": {
+			"foreground": "#ffffff",
+			"background": "#485dbb",
+			"type": "text-and-comment",
+			"fontWeight": "500"
+		}
+	},
+
+	// Live Server
+	"liveServer.settings.donotShowInfoMsg": true,
+
+	// Unorganised Settings
+	"svelte.enable-ts-plugin": true,
+	"oneDarkPro.editorTheme": "Dark Modern",
+	"oneDarkPro.vivid": true,
+	"diffEditor.maxComputationTime": 0,
+	"javascript.updateImportsOnFileMove.enabled": "never",
+	"settingsSync.ignoredSettings": ["-svn.path"],
+	"explorer.compactFolders": false,
+	"php.highlight-todo.enable": false,
+	"intelephense.completion.maxItems": 10,
+	"intelephense.format.braces": "k&r",
+	"intelephense.trace.server": "verbose",
+	"intelephense.telemetry.enabled": false,
+	"trailing-spaces.trimOnSave": true,
+	"prettier.singleQuote": true,
+	"prettier.trailingComma": "none",
+	"prettier.htmlWhitespaceSensitivity": "strict",
+	"security.workspace.trust.enabled": false,
+	"fiveServer.php.executable": "C:\\Dev\\PHP\\php.exe",
+	"[sql]": {
+		"editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+	},
+	"svn.defaultCheckoutDirectory": "C:\\SGN\\apply7\\repo",
+	"php.completion.namingConvention": "snake_case",
+  "php.format.codeStyle": "K&R",
+  "security.allowedUNCHosts": [
+    "wsl.localhost"
+  ]
+}

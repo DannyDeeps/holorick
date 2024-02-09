@@ -10,7 +10,8 @@
 		}
 	],
   "scripts": {
-    "debug": "vendor/bin/phpstan analyse"
+    "debug": "vendor/bin/phpstan analyse config inc src tests",
+		"test": "vendor/bin/phpunit tests"
   },
 	"require": {
 		"team-reflex/discord-php": "^7.3",
@@ -22,6 +23,7 @@
 		}
 	},
 	"require-dev": {
-		"phpstan/phpstan": "^1.10"
+		"phpstan/phpstan": "^1.10",
+		"phpunit/phpunit": "^11.0"
 	}
 }
