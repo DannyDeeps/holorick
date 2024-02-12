@@ -1,34 +1,39 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace HoloRick\Character;
 
-use \GuzzleHttp\Client;
-use \Discord\Parts\Embed\Embed;
+use HoloRick\Api\RickAndMorty;
+use HoloRick\Character\Character;
+use HoloRick\Exception\CharactersExhaustedException;
+use HoloRick\Exception\GetFileContentsException;
+use HoloRick\Exception\JsonDecodeFailedException;
+
 
 final class Handler {
-  public static function getCharacter(int $characterId): object {
-    $http = new Client([
-      'base_uri' => 'https://rickandmortyapi.com',
-      'curl' => [CURLOPT_SSL_VERIFYPEER => false]
-    ]);
+  public static function getCharacter(int $characterId): Character {
+    $api = new RickAndMorty;
+    $characterJson = $api->get('character', (string) $characterId);
+    $character = Character::fromJson($characterJson);
 
-    $response = $http->request('GET', '/api/character/' . $characterId);
-
-    return json_decode((string) $response->getBody());
+    return $character;
   }
 
-  public static function getRandomCharacter(): object {
+  public static function getRandomCharacter(): Character {
     $unassignedCharacterIds = self::getUnassignedCharacterIds();
 
-    $characterId = $unassignedCharacterIds[random_int(0, count($unassignedCharacterIds) - 1)];
+    $idCount = count($unassignedCharacterIds);
+    if ($idCount < 1) {
+      throw new CharactersExhaustedException;
+    }
+
+    $characterId = $unassignedCharacterIds[random_int(0, --$idCount)];
 
     return self::getCharacter($characterId);
   }
 
-  public static function getCharacterEmbed(object $character): object {
-    return (object) [
+  /** @return array<string,mixed> */
+  public static function getCharacterEmbed(Character $character): array {
+    return [
       'title' => $character->name,
       'image' => [
         'url' => $character->image
@@ -51,12 +56,12 @@ final class Handler {
         ],
         [
           'name' => 'Origin',
-          'value' => $character->origin->name,
+          'value' => $character->origin,
           'inline' => true
         ],
         [
           'name' => 'Location',
-          'value' => $character->location->name,
+          'value' => $character->location,
           'inline' => true
         ],
         [
@@ -68,35 +73,55 @@ final class Handler {
     ];
   }
 
+  /** @return array<int> */
   public static function getUnassignedCharacterIds(): array {
-    return array_diff(range(1, 826), array_map(fn($character) => $character->id, self::getAssignedCharacters()));
+    return array_diff(range(1, 826), array_map(fn($character) => (int) $character->id, self::getAssignedCharacters()));
   }
 
-  public static function assignCharacter(string $userId, string $roleId, object $character): void {
-    $assignedCharacters = self::getAssignedCharacters();
-
+  public static function assignCharacter(string $userId, string $roleId, Character $character): void {
     $character->user_id = $userId;
     $character->role_id = $roleId;
 
+    $assignedCharacters = self::getAssignedCharacters();
     $assignedCharacters[] = $character;
 
     file_put_contents(ROOT . 'assigned-characters.json', json_encode($assignedCharacters, JSON_PRETTY_PRINT));
   }
 
-  public static function getAssignedCharacter(string $userId): object {
+  public static function getAssignedCharacter(string $userId): ?Character {
     $assignedCharacters = self::getAssignedCharacters();
+
+    $foundCharacter = null;
 
     foreach ($assignedCharacters as $character) {
       if ($userId === $character->user_id) {
-        return $character;
+        $foundCharacter = $character;
+        break;
       }
     }
 
-    return new \stdClass();
+    return $foundCharacter;
   }
 
+  /** @return array<Character> */
   public static function getAssignedCharacters(): array {
-    return json_decode(file_get_contents(ROOT . 'assigned-characters.json'));
+    $json = file_get_contents(ROOT . 'assigned-characters.json');
+    if (!$json) {
+      throw new GetFileContentsException;
+    }
+    
+    $characterObjects = json_decode($json);
+    if (!is_array($characterObjects)) {
+      throw new JsonDecodeFailedException;
+    }
+    
+    $characters = [];
+
+    foreach ($characterObjects as $characterObj) {
+      $characters[] = Character::fromObject($characterObj);
+    }
+
+    return $characters;
   }
 
   public static function unassignCharacter(string $userId): void {
@@ -105,9 +130,5 @@ final class Handler {
     $filteredAssignedCharacters = array_filter($assignedCharacters, fn($character) => $character->user_id !== $userId);
 
     file_put_contents(ROOT . 'assigned-characters.json', json_encode(array_values($filteredAssignedCharacters), JSON_PRETTY_PRINT));
-  }
-
-  public static function unassignCharacters(): void {
-    file_put_contents(ROOT . 'assigned-characters.json', '[]');
   }
 }

@@ -3,7 +3,7 @@
 namespace HoloRick\Exception;
 
 class RoleCreationFailedException extends \Exception {
-  public function __construct(string $message = 'Role creation failed.', $code = 0, \Throwable $previous = null) {
+  public function __construct(string $message = 'Role creation failed.', int $code = 0, \Throwable $previous = null) {
     parent::__construct($message, $code, $previous);
   }
 }

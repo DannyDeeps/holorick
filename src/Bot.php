@@ -28,10 +28,14 @@ class Bot {
 
     $this->discord->on('ready', function (Discord $discord) {
       $this->discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) {
-        if ($message->author->bot) return;
+        if ($message->author?->bot) return;
         if (!$message->channel_id) return;
 
-        MessageHandler::incomingMessage($message, $discord);
+        try {
+          MessageHandler::incomingMessage($message, $discord);
+        } catch (\Exception $e) {
+          Logger::error($e);
+        }
       });
     });
 

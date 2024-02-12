@@ -2,41 +2,35 @@
 
 namespace HoloRick;
 
-use HoloRick\Exception\PathIsNotADirectoryException;
-use HoloRick\Exception\PathDoesNotExistException;
-use HoloRick\Exception\PathIsNotWritableException;
-
 class Logger {
-  public static function log(string $message, string $logDir): void {
-    if (!file_exists($logDir)) throw new PathDoesNotExistException;
-    if (!is_dir($logDir)) throw new PathIsNotADirectoryException;
-    if (!is_writable($logDir)) throw new PathIsNotWritableException;
+  public static function getFilePath(string $fileName = ''): string {
+    if (!$fileName) {
+      $fileName = date('Ymd');
+    }
 
-    $file = $logDir . '/' . date('Ymd') . '.log';
-    $message = '[' . date('Y-m-d H:i:s') . '] ' . $message . "\n";
+    $path = LOG_DIR . "/$fileName.log";
 
-    file_put_contents($file, $message, file_exists($file) ? FILE_APPEND : 0);
+    return $path;
+  }
+  
+  public static function log(string $message, string $context = ''): void {
+    $filePath = self::getFilePath();
+    $timestamp = date('Y-m-d H:i:s');
+
+    if ($context) {
+      $context = '[' . strtoupper($context) . ']';
+    }
+
+    $message = "[$timestamp]$context $message\n";
+
+    file_put_contents($filePath, $message, file_exists($filePath) ? FILE_APPEND : 0);
   }
 
-  public static function debug(string $message, string $logDir): void {
-    if (!file_exists($logDir)) throw new PathDoesNotExistException;
-    if (!is_dir($logDir)) throw new PathIsNotADirectoryException;
-    if (!is_writable($logDir)) throw new PathIsNotWritableException;
-
-    $file = $logDir . '/' . date('Ymd') . '.log';
-    $message = '[' . date('Y-m-d H:i:s') . '][DEBUG] ' . $message . "\n";
-
-    file_put_contents($file, $message, file_exists($file) ? FILE_APPEND : 0);
+  public static function debug(string $message): void {
+    self::log($message, 'debug');
   }
 
-  public static function error(string $message, string $logDir): void {
-    if (!file_exists($logDir)) throw new PathDoesNotExistException;
-    if (!is_dir($logDir)) throw new PathIsNotADirectoryException;
-    if (!is_writable($logDir)) throw new PathIsNotWritableException;
-
-    $file = $logDir . '/' . date('Ymd') . '.log';
-    $message = '[' . date('Y-m-d H:i:s') . '][ERROR] ' . $message . "\n";
-
-    file_put_contents($file, $message, file_exists($file) ? FILE_APPEND : 0);
+  public static function error(\Exception $exception): void {
+    self::log($exception->getMessage(), 'error');
   }
 }
