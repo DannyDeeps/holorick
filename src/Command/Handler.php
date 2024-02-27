@@ -31,19 +31,19 @@ final class Handler {
       if (!$guild) {
         throw new GuildNotFoundException;
       }
-  
+
       $args = explode(' ', $message->content);
       $command = array_shift($args);
-  
+
       Logger::log("{$message->author?->username} -> $command", 'command');
-  
+
       if ($message->user_id === MASTER_USER_ID) {
         switch ($command) {
           case '!assignchars': self::assignCharacters($guild); break;
           case '!unassignchars': self::unassignCharacters($guild); break;
         }
       }
-  
+
       switch ($command) {
         case '!mychar': self::myChar($message); break;
         case '!newchar': self::newChar($message, $guild); break;
@@ -73,15 +73,15 @@ final class Handler {
       if ($member->user->bot) continue;
 
       try {
-        $character = CharacterHandler::getAssignedCharacter($member->user_id);
+        $character = CharacterHandler::getAssignedCharacter($member->user->id);
         if (!$character) {
           $newCharacter = CharacterHandler::getRandomCharacter();
 
           $guild->createRole(['name' => $newCharacter->name, 'hoist' => true])
             ->then(function ($newRole) use ($member, $newCharacter) {
-              CharacterHandler::assignCharacter($member->user_id, $newRole->role_id, $newCharacter);
+              CharacterHandler::assignCharacter($member->user->id, $newRole->role_id, $newCharacter);
             }, fn() => throw new RoleCreationFailedException);
-        }  
+        }
       } catch (CharactersExhaustedException|RoleCreationFailedException $e) {
         Logger::error($e);
       }
@@ -95,11 +95,11 @@ final class Handler {
 
     if (null !== $character) {
       $embed = CharacterHandler::getCharacterEmbed($character);
-  
+
       $reply = MessageBuilder::new()
         ->setContent("<@{$message->user_id}>")
         ->addEmbed($embed);
-  
+
       $message->reply($reply)->then(null, fn() => throw new MessageFailedToSendException);
     }
   }

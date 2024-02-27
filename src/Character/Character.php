@@ -28,7 +28,7 @@ class Character {
 
     return $json;
   }
-  
+
   public static function fromJson(string $json): self {
     $obj = json_decode($json);
     if (!is_object($obj)) {
@@ -46,8 +46,8 @@ class Character {
       $obj->species ?? '',
       $obj->type ?? '',
       $obj->gender ?? '',
-      $obj->origin ?? '',
-      $obj->location ?? '',
+      $obj->origin->name ?? '',
+      $obj->location->name ?? '',
       $obj->status ?? '',
       $obj->user_id ?? '',
       $obj->role_id ?? ''
