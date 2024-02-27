@@ -1,2 +1,4 @@
 vendor/
 log/*
+.phpunit.result.cache
+assigned-characters.json

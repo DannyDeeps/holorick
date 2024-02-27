@@ -3,6 +3,7 @@
 	"description": "Discord bot for Glip Glops server.",
 	"type": "discord-bot",
 	"license": "MIT",
+	"version": "0.0.1",
 	"authors": [
 		{
 			"name": "Daniel Huggins",
