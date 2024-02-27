@@ -4,7 +4,7 @@ on:
   push:
     branches:
       main
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,15 +17,15 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-      
+
       - name: Install Composer Deps
         run: composer install
 
       - name: Run debug
         run: composer debug
 
-      - name: Test Fail Action
-        run: php fail-action.php
+      # - name: Test Fail Action
+      #   run: php fail-action.php
 
       # - name: Run PHPUnit test
       #   run: composer test

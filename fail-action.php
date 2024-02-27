@@ -1,3 +1,1 @@
-<?php
-
-exit(1);
+<?php exit(1);
