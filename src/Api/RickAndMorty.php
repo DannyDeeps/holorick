@@ -22,13 +22,13 @@ class RickAndMorty {
     if (200 !== $response->getStatusCode()) {
       throw new BadResponseException;
     }
-    
+
     $json = (string) $response->getBody();
-    
+
     if (!json_validate($json)) {
       throw new InvalidJsonException;
     }
-    
+
     return $json;
   }
 }

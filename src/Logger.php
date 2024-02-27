@@ -12,7 +12,7 @@ class Logger {
 
     return $path;
   }
-  
+
   public static function log(string $message, string $context = ''): void {
     $filePath = self::getFilePath();
     $timestamp = date('Y-m-d H:i:s');

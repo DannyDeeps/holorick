@@ -48,7 +48,7 @@ final class Handler {
         case '!mychar': self::myChar($message); break;
         case '!newchar': self::newChar($message, $guild); break;
       }
-    } catch (GuildNotFoundException $e) {
+    } catch (GuildNotFoundException|\Exception $e) {
       Logger::error($e);
     }
   }
@@ -62,7 +62,17 @@ final class Handler {
           ->then(function() use ($character) {
             CharacterHandler::unassignCharacter($character->user_id);
           }, fn() => throw new RoleDeletionFailedException);
-      } catch (RoleDeletionFailedException $e) {
+      } catch (RoleDeletionFailedException|\Exception $e) {
+        Logger::error($e);
+      }
+    }
+
+    foreach ($guild->roles as $role) {
+      try {
+        if (!in_array($role->name, ['Holo-Rick', 'Admin', 'Server Booster'])) {
+          $guild->roles->delete($role)->then(null, fn() => throw new RoleDeletionFailedException);
+        }
+      } catch (RoleDeletionFailedException|\Exception $e) {
         Logger::error($e);
       }
     }
@@ -79,10 +89,13 @@ final class Handler {
 
           $guild->createRole(['name' => $newCharacter->name, 'hoist' => true])
             ->then(function ($newRole) use ($member, $newCharacter) {
-              CharacterHandler::assignCharacter($member->user->id, $newRole->role_id, $newCharacter);
+              $member?->addRole($newRole)
+                ->then(function () use ($member, $newCharacter, $newRole) {
+                  CharacterHandler::assignCharacter($member->user->id, $newRole->id, $newCharacter);
+              }, fn() => throw new RoleAssignFailedException);
             }, fn() => throw new RoleCreationFailedException);
         }
-      } catch (CharactersExhaustedException|RoleCreationFailedException $e) {
+      } catch (CharactersExhaustedException|RoleCreationFailedException|\Exception $e) {
         Logger::error($e);
       }
     }
@@ -122,7 +135,7 @@ final class Handler {
       ->then(function ($newRole) use ($message, $newCharacter) {
         $message->member?->addRole($newRole)
           ->then(function () use ($message, $newCharacter, $newRole) {
-            CharacterHandler::assignCharacter($message->user_id, $newRole->role_id, $newCharacter);
+            CharacterHandler::assignCharacter($message->user_id, $newRole->id, $newCharacter);
 
             $embed = CharacterHandler::getCharacterEmbed($newCharacter);
 
@@ -130,8 +143,7 @@ final class Handler {
               ->setContent("<@{$message->user_id}>")
               ->addEmbed($embed);
 
-            $message->reply($reply)
-              ->then(null, fn() => throw new MessageFailedToSendException);
+            $message->reply($reply)->then(null, fn() => throw new MessageFailedToSendException);
         }, fn() => throw new RoleAssignFailedException);
     }, fn() => throw new RoleCreationFailedException);
   }

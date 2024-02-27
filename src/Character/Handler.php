@@ -109,12 +109,12 @@ final class Handler {
     if (!$json) {
       throw new GetFileContentsException;
     }
-    
+
     $characterObjects = json_decode($json);
     if (!is_array($characterObjects)) {
       throw new JsonDecodeFailedException;
     }
-    
+
     $characters = [];
 
     foreach ($characterObjects as $characterObj) {
