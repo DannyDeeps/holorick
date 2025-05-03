@@ -22,22 +22,22 @@ final class HandlerTest extends TestCase {
   public function testGetCharacterEmbed(Character $character): void {
     $embed = Handler::getCharacterEmbed($character);
 
-    $this->assertIsObject($embed);
+    $this->assertIsArray($embed);
 
-    foreach (['title', 'image', 'fields'] as $property) {
-      $this->assertObjectHasProperty($property, $embed);
+    foreach (['title', 'image', 'fields'] as $key) {
+      $this->assertArrayHasKey($key, $embed);
     }
-  
-    $this->assertIsObject($embed->image);
-    $this->assertObjectHasProperty('url', $embed->image);
 
-    $this->assertIsArray($embed->fields);
+    $this->assertIsArray($embed['image']);
+    $this->assertArrayHasKey('url', $embed['image']);
 
-    foreach ($embed->fields as $field) {
-      $this->assertIsObject($field);
+    $this->assertIsArray($embed['fields']);
 
-      foreach (['name', 'value', 'inline'] as $property) {
-        $this->assertObjectHasProperty($property, $field);
+    foreach ($embed['fields'] as $field) {
+      $this->assertIsArray($field);
+
+      foreach (['name', 'value', 'inline'] as $key) {
+        $this->assertArrayHasKey($key, $field);
       }
     }
   }

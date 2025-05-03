@@ -34,7 +34,7 @@ final class CharacterTest extends TestCase {
     return $character;
   }
 
-  #[Depends('testCreateFromJson')]
+  #[Depends('testCreateFromApiJson')]
   public function testToCharacterJson(Character $character): void {
     $characterJson = $character->toJson();
 
