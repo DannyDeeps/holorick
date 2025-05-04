@@ -11,7 +11,7 @@
 		}
 	],
   "scripts": {
-    "debug": "vendor/bin/phpstan --memory-limit=1G analyse --level=max config inc src tests",
+    "debug": "vendor/bin/phpstan --memory-limit=1G analyse --level=max inc src tests",
 		"test": "vendor/bin/phpunit tests"
   },
 	"require": {
