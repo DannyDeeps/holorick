@@ -10,7 +10,7 @@ use HoloRick\Logger;
 
 class Handler {
   public static function incomingMessage(Message $message, Discord $discord) : void {
-    if (in_array($message->channel_id, COMMAND_CHANNELS)) {
+    if ($message->channel_id === $_ENV['COMMAND_CHANNEL_ID']) {
       if (CommandHandler::detectCommand($message)) {
         CommandHandler::executeCommand($message, $discord);
       }

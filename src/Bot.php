@@ -15,7 +15,7 @@ class Bot {
 
   public function start() : void {
     $this->discord = new Discord([
-      'token' => BOT_TOKEN,
+      'token' => $_ENV['BOT_TOKEN'],
       'loop' => Loop::get(),
       'disabledEvents' => [],
       'loadAllMembers' => true,

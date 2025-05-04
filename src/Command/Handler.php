@@ -37,7 +37,7 @@ final class Handler {
 
       Logger::log("{$message->author?->username} -> $command", 'command');
 
-      if ($message->user_id === MASTER_USER_ID) {
+      if ($message->user_id === $_ENV['MASTER_USER_ID']) {
         switch ($command) {
           case '!assignchars': self::assignCharacters($guild); break;
           case '!unassignchars': self::unassignCharacters($guild); break;
